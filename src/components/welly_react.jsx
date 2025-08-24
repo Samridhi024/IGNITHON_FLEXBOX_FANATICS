@@ -114,7 +114,7 @@ const Chatbot = () => {
             />
             <div className="bot-icon" style={{ marginLeft: "10px" }}>
               <img
-                src="/wellie-fotor-bg-remover-2025082413644.png"
+                src="/well.png"
                 alt="Chatbot Logo"
                 style={{
                   width: "35px",
@@ -132,3 +132,4 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
+
