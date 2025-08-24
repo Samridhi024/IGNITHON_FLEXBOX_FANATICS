@@ -49,7 +49,7 @@ const Chatbot = () => {
         style={{ position: "fixed", bottom: "20px", right: "20px", cursor: "pointer" }}
       >
         <img
-          src="/wellie-fotor-bg-remover-2025082413644.png"
+          src="/well.png"
           alt="Chatbot"
           style={{ width: "60px", height: "60px", borderRadius: "50%" }}
         />
@@ -132,5 +132,6 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
+
 
 
