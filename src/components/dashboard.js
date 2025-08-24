@@ -103,11 +103,66 @@ function WellEd({
               </button>
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  {["Features", "About Us", "Contact Us"].map((item, idx) => (
-                    <li key={idx} className="nav-item">
-                      <a className="nav-link text-secondary" href="#">{item}</a>
-                    </li>
-                  ))}
+                  {[
+                    {
+                      label: "Features",
+                      detail: "WellEd offers quizzes, study methods, and an AI chatbot to help you learn smarter and stay motivated.",
+                    },
+                    {
+                      label: "About Us",
+                      detail: "WellEd combines education with well-being to help students grow both personally and professionally.",
+                    },
+                    {
+                      label: "Contact Us",
+                      detail: (
+                        <>
+                          <div>📞 Helpline: <strong>14416</strong></div>
+                          <div>🌐 <a href="https://telemanas.mohfw.gov.in/home" target="_blank" rel="noreferrer">TeleMANAS</a></div>
+                        </>
+                      ),
+                    },
+                  ].map((item, idx) => (
+                  <li
+                    key={idx}
+                    className="nav-item position-relative mx-2"
+                    style={{ listStyle: "none" }}
+                  >
+                    <a className="nav-link text-secondary" href="#">
+                      {item.label}
+                    </a>
+                    <div
+                      className="hover-box"
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        marginTop: "6px",
+                        background: "rgba(0,0,0,0.75)",
+                        color: "#fff",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        fontSize: "13px",
+                        opacity: 0,
+                        pointerEvents: "none",
+                        transition: "opacity 0.3s ease, transform 0.3s ease",
+                        whiteSpace: "nowrap",
+                        zIndex: 999,
+                      }}
+    >
+      {item.detail}
+    </div>
+    <style>
+      {`
+        .nav-item:hover .hover-box {
+          opacity: 1 !important;
+          transform: translateX(-50%) translateY(2px) !important;
+        }
+      `}
+    </style>
+  </li>
+))}
+
                 </ul>
 
                 {/* Auth Buttons */}
@@ -185,7 +240,7 @@ function WellEd({
                 </div>
               </div>
 
-             <div className="col-md-8 row text-muted fw-medium">
+              <div className="col-md-8 row text-muted fw-medium">
                 <div className="col-6 d-flex align-items-center mb-2">
                   <span className="material-icons text-primary me-2"></span>
                   Helpline email: https://telemanas.mohfw.gov.in/home
