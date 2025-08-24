@@ -1,5 +1,6 @@
 // src/components/Quiz.js
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const questions = [
   {
@@ -87,6 +88,8 @@ const questions = [
 export default function Quiz({ onBack }) {
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleSelect = (qIndex, optionIndex) => {
     const newAnswers = [...answers];
@@ -133,7 +136,10 @@ export default function Quiz({ onBack }) {
           >
             Submit Quiz
           </button>
-          <button className="btn btn-secondary ms-2" onClick={onBack}>
+          <button
+            className="btn btn-secondary mt-2 mx-2"
+            onClick={() => navigate("/")}
+          >
             Back to Dashboard
           </button>
         </>
@@ -141,7 +147,10 @@ export default function Quiz({ onBack }) {
         <div className="text-center">
           <h3>Your Stress Level:</h3>
           <p className="fw-bold">{calculateResult()}</p>
-          <button className="btn btn-secondary mt-3" onClick={onBack}>
+          <button
+            className="btn btn-secondary mt-2 mx-2"
+            onClick={() => navigate("/")}
+          >
             Back to Dashboard
           </button>
         </div>
