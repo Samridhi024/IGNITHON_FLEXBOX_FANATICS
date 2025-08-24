@@ -31,48 +31,7 @@ app.add_middleware(
 class Query(BaseModel):
     message: str
 
-# Extract city from message using regex
-# def extract_city_from_text(text: str) -> Optional[str]:
-#     match = re.search(r'\b(?:in|at|of)\s+([A-Za-z\s]+)', text, re.IGNORECASE)
-#     if match:
-#         return match.group(1).strip()
-#     return None
 
-# Get location data using Nominatim
-# def get_location(city: str):
-#     try:
-#         response = requests.get(
-#             "https://nominatim.openstreetmap.org/search",
-#             params={"city": city, "format": "json"},
-#             timeout=5
-#         )
-#         response.raise_for_status()
-#         return response.json()
-#     except Exception as e:
-#         print(f"Location error: {e}")
-#         return []
-
-# Get current weather from OpenWeatherMap
-# def get_weather_data(lat: float, lon: float):
-#     url = "https://api.openweathermap.org/data/2.5/weather"
-#     params = {"lat": lat, "lon": lon, "appid": OPENWEATHER_API_KEY, "units": "metric"}
-#     try:
-#         response = requests.get(url, params=params)
-#         response.raise_for_status()
-#         data = response.json()
-#         print("✅ Weather API Response:", data)  # Debug log
-#         return {
-#             "temp": data["main"]["temp"],
-#             "high": data["main"]["temp_max"],
-#             "low": data["main"]["temp_min"],
-#             "condition": data["weather"][0]["description"],
-#             "humidity": data["main"]["humidity"],
-#             "wind_speed": data["wind"]["speed"],
-#             "wind_deg": data["wind"]["deg"],
-#         }
-#     except Exception as e:
-#         print(f"Weather error: {e}")
-#         return None
 
 # Chatbot POST endpoint
 @app.post("/ask")
@@ -101,3 +60,4 @@ async def ask_student_support(query: Query):
     except Exception as e:
         print(f"Error in /ask endpoint: {e}")
         return {"error": "Internal server error"}, 500
+
