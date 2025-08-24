@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./dashboard.css";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, logOut, loginWithEmail, registerWithEmail } from "./firebase";
+// import Chatbot from "./welly";
 
 const Dashboard = () => {
   const texts = [
@@ -184,7 +185,7 @@ const Dashboard = () => {
                   {
                     title: "QUIZ",
                     author: "By WellEd",
-                    img: "https://via.placeholder.com/150",
+                    img: "quiz.png",
                   },
                 ].map((lesson, idx) => (
                   <div
@@ -222,7 +223,7 @@ const Dashboard = () => {
             <p>© 2025 WellEd. All rights reserved.</p>
           </footer>
         </div>
-          <Chatbot />
+          {/* <Chatbot /> */}
       </div>
     );
   };
