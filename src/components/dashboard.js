@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./dashboard.css";
-
+import Chatbot from "./welly-react"
 const Dashboard = () => {
   const texts = [
     "Tomorrow is for the Taking",
@@ -182,6 +182,7 @@ const Dashboard = () => {
             <p>© 2025 WellEd. All rights reserved.</p>
           </footer>
         </div>
+          <Chatbot />
       </div>
     );
   };
