@@ -6,7 +6,7 @@
 
 ## 🚀 Overview
 
-**WellEd** is a web platform designed to help students balance **education** and **mental health**.
+**WellEd** is a web platform designed to help students balance **education** and **mental health** focusing on two major **SDGs**: SDG 3- Good health and Well being and SDG 4- Quality Education.
 It provides:
 
 * 📊 A **Dashboard** with motivational content, recommended lessons, and quizzes.
