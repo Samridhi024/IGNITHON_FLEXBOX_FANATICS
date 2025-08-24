@@ -79,25 +79,48 @@ const Chatbot = () => {
               </div>
             ))}
           </div>
-          <div className="chat-input">
-            <input
-              type="text"
-              placeholder="Ask me something..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  const msg = e.target.value.trim();
-                  if (msg) {
-                    handleSend(msg);
-                    e.target.value = "";
-                  }
-                }
-              }}
-            />
-          </div>
-        </div>
+          <div
+  className="chat-input"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+    borderTop: "1px solid #bafdf6",
+  }}
+>
+  <input
+    type="text"
+    placeholder="Ask me something..."
+    style={{
+      flex: 1,
+      padding: "8px",
+      borderRadius: "20px",
+      border: "none",
+      outline: "none",
+      backgroundColor: "#f5f5f5",
+    }}
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        const msg = e.target.value.trim();
+        if (msg) {
+          handleSend(msg);
+          e.target.value = "";
+        }
+      }
+    }}
+  />
+  <div className="bot-icon" style={{ marginLeft: "10px" }}>
+    <img
+      src="/wellie-fotor-bg-remover-2025082413644.png"
+      alt="Chatbot Logo"
+      style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }}
+    />
+  </div>
+</div>
       )}
     </>
   );
 };
 
 export default Chatbot;
+
