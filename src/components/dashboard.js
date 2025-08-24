@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./dashboard.css";
-import { auth, signInWithGoogle, logOut, loginWithEmail, registerWithEmail } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import Quiz from "./quiz";
 
 const Dashboard = () => {
   const texts = [
@@ -225,6 +222,7 @@ const Dashboard = () => {
             <p>© 2025 WellEd. All rights reserved.</p>
           </footer>
         </div>
+          <Chatbot />
       </div>
     );
   };
