@@ -1,3 +1,4 @@
+
 // src/App.js
 import { useEffect, useState } from "react";
 import { auth } from "./components/firebase";
@@ -27,9 +28,11 @@ function App() {
       {user ? (
         <Routes>
           <Route path="/" element={<Dashboard user={user} />} />
+          <Route path="/dashboard" element={<Dashboard user={user} />} /> 
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/study-methods" element={<StudyMeth />} />
         </Routes>
+
       ) : (
         <AuthForm />
       )}
