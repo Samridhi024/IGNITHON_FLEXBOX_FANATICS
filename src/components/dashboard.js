@@ -185,15 +185,15 @@ function WellEd({
                 </div>
               </div>
 
-              <div className="col-md-8 row text-muted fw-medium">
+             <div className="col-md-8 row text-muted fw-medium">
                 <div className="col-6 d-flex align-items-center mb-2">
                   <span className="material-icons text-primary me-2"></span>
-                  Instagram
+                  Helpline email: https://telemanas.mohfw.gov.in/home
                 </div>
-                <div className="col-6 d-flex align-items-center mb-2 fw-bold">WELLED</div>
+                <div className="col-6 d-flex align-items-center mb-2 fw-bold"></div>
                 <div className="col-6 d-flex align-items-center mb-2">
                   <span className="material-icons text-danger me-2"></span>
-                  Whatsapp
+                  Helpline No. 14416
                 </div>
               </div>
             </div>
