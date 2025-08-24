@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const studyMethods = [
   {
@@ -35,6 +36,7 @@ const studyMethods = [
 
 export default function StudyMeth({ onBack }) {
   const [activeTab, setActiveTab] = useState(0);
+  const navigate = useNavigate();
 
   const images = ["/img1.jpg", "/img2.jpg", "/img3.jpg", "/img4.jpg"];
 
@@ -47,11 +49,12 @@ export default function StudyMeth({ onBack }) {
       <div className="row mb-4 text-center">
         {images.map((img, idx) => (
           <div key={idx} className="col-6 col-md-3 mb-3">
-            <div className="card h-100 shadow-sm">
+            <div className="card shadow-sm" >
               <img
                 src={img}
                 alt={`Study ${idx + 1}`}
                 className="card-img-top img-fluid rounded"
+                style={{ height: "500px" }}
               />
             </div>
           </div>
@@ -78,7 +81,10 @@ export default function StudyMeth({ onBack }) {
         <p>{studyMethods[activeTab].description}</p>
       </div>
 
-      <button className="btn btn-secondary mt-3" onClick={onBack}>
+      <button
+        className="btn btn-secondary mt-3"
+        onClick={() => navigate("/dashboard")}
+      >
         Back to Dashboard
       </button>
     </div>
