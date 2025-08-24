@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, logOut, loginWithEmail, registerWithEmail } from "./firebase";
-// import Chatbot from "./welly";
+import Welly from "./welly_react"; 
 
 const Dashboard = () => {
   const texts = [
@@ -153,8 +153,8 @@ const Dashboard = () => {
                   <p className="text-muted small">Our purpose is to make this society a better place to live in.</p>
                   <div className="d-flex align-items-center mt-3">
                     <div className="d-flex">
-                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYoXlQ-_Zg1JoNH2Sc2PBcW8CV-rYMK_Z-zXBGpxreRHiXBCCk0x3oxT379__q1iKMgQPLGdtyaTemQZgXuxtSuzZWyYAy8_ons-8E9Fy37uxr0OjroolGlLQuKrNo4zrcZeUXNEBYbi0Amr_6fwXcxPHuvqWR2k7YzorO4-MgevklTnBZOKCxvUUwlapJpCrFD5hYZzLxTLzxyv0NGaRmTwI4YK8mQ1k83yvZ1iMW25qM-DLgbpW8QS2abMwrBXFsXo_udNhYKr4" alt="Reviewer 1" className="rounded-circle border border-white me-1" width="32" height="32"/>
-                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAWpJglhP5pHhDKWIxZyUUE65jm-SxlmgHMqquioXwcfGgDgXqbrPlFCGF-I56cEF1whSS7gDDPwO7b7lwkoNvIxkLI61NBLSeHUTTGOmQfMP9bw7VUsBDZ-Ch9bO88142Tb4-dzXrlJ9tUws7VerhzGMF_mydDqTb7rCFT87zBhz18HuVmpBw9URUvotXNc1nhHtQ1OnB0vdr3soSfVxnKWqgil9j6KyuKskDmBhP4xQrBlg9Qc_InG5B-52OQtwc4hMDrIEX3Tk" alt="Reviewer 2" className="rounded-circle border border-white me-1" width="32" height="32"/>
+                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
+                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
                       <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
                     </div>
                   </div>
@@ -180,19 +180,26 @@ const Dashboard = () => {
                 <h5 className="fw-bold text-dark">FOR YOU</h5>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4 mx-4">
                 {[
                   {
                     title: "QUIZ",
                     author: "By WellEd",
-                    img: "quiz.png",
+                    img: "quiz.jpg",
+                    route: "/quiz",
+                  },
+                  {
+                    title: "STUDY METHODS",
+                    author: "By WellEd",
+                    img: "stmth.jpg",
+                    route: "/study-methods",
                   },
                 ].map((lesson, idx) => (
                   <div
                     key={idx}
                     className="card mb-3 border-0 shadow-sm"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate("/quiz")} // ✅ go to Quiz
+                    onClick={() => navigate(lesson.route)}
                   >
                     <div className="row g-0 align-items-center">
                       <div className="col-4">
@@ -206,15 +213,13 @@ const Dashboard = () => {
                         <div className="card-body p-2">
                           <h6 className="fw-semibold mb-1">{lesson.title}</h6>
                           <p className="small text-muted mb-1">{lesson.author}</p>
-                          <div className="d-flex justify-content-between align-items-center small text-muted">
-                            <span className="material-icons">favorite_border</span>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+
             </div>
           </main>
 
@@ -223,8 +228,9 @@ const Dashboard = () => {
             <p>© 2025 WellEd. All rights reserved.</p>
           </footer>
         </div>
-          {/* <Chatbot /> */}
-      </div>
+
+        <Welly />
+      </div> 
     );
   };
 

@@ -32,7 +32,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import Dashboard from "./components/dashboard";
 import AuthForm from "./components/AuthForm";
 import Quiz from "./components/quiz"; 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
+import StudyMeth from "./components/studyMeth";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard user={user} />} />
           <Route path="/quiz" element={<Quiz />} />
+          <Route path="/study-methods" element={<StudyMeth />} />
         </Routes>
       ) : (
         <AuthForm />
