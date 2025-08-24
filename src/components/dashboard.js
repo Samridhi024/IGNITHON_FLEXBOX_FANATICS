@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./dashboard.css";
-import Chatbot from "./welly-react"
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, logOut, loginWithEmail, registerWithEmail } from "./firebase";
+import Welly from "./welly_react"; 
+
 const Dashboard = () => {
   const texts = [
     "Tomorrow is for the Taking",
@@ -9,15 +11,28 @@ const Dashboard = () => {
     "Grow Your Future"
   ];
 
+  const navigate = useNavigate();
+
   const [displayedText, setDisplayedText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // ✅ Firebase user state
+  const [user, setUser] = useState(null);
+
+  // Track login state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Typing effect
   useEffect(() => {
     const currentText = texts[textIndex];
-
-    let typingSpeed = isDeleting ? 50 : 100; // faster when deleting
+    let typingSpeed = isDeleting ? 50 : 100;
 
     if (!isDeleting && charIndex < currentText.length) {
       const timeout = setTimeout(() => {
@@ -39,7 +54,7 @@ const Dashboard = () => {
           setIsDeleting(false);
           setTextIndex((prev) => (prev + 1) % texts.length);
         }
-      }, 1000); // pause before switching
+      }, 1000);
       return () => clearTimeout(timeout);
     }
   }, [charIndex, isDeleting, textIndex, texts]);
@@ -69,9 +84,30 @@ const Dashboard = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* ✅ Auth Buttons */}
                   <div className="d-flex ms-3">
-                    <button className="btn btn-dark me-2">Login</button>
-                    <button className="btn btn-outline-dark">Register</button>
+                    {user ? (
+                      <>
+                        <span className="me-2 fw-bold text-dark">{user.email}</span>
+                        <button className="btn btn-danger" onClick={logOut}>Logout</button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-dark me-2"
+                          onClick={() => loginWithEmail("test@test.com", "password123")}
+                        >
+                          Login
+                        </button>
+                        <button
+                          className="btn btn-outline-dark me-2"
+                          onClick={() => registerWithEmail("test@test.com", "password123")}
+                        >
+                          Register
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -100,7 +136,7 @@ const Dashboard = () => {
                 </div>
                 <div className="col-md-6 position-relative">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-y3Iu0oWN2IdRK7Z27vVEpWl6hJ6V-TeAqg6RAjPR3E8Xi0H3QMrpeaJKo0Kw1FnKoF8ixvCHBFOaRM-wPdbeF3ics9v3wpY_DzPxfXgMW7_D8sfFLkjU4tIJEYh_PYqS0p50ZBlskhHz3Tga1nOs_hCyndImBdB3-RH6r9QBGw46uzAmCWNg85NvtePUqG3yVpqA5if3qvUP38J2rrHUtTHRuRHsCs-lPMfcD5U_cqbqK1UGkr8ZfDYVbI8w3HQBTBSdifZwa0w"
+                    src="wellbeing.png"
                     alt="Illustration"
                     className="img-fluid rounded"
                   />
@@ -117,8 +153,8 @@ const Dashboard = () => {
                   <p className="text-muted small">Our purpose is to make this society a better place to live in.</p>
                   <div className="d-flex align-items-center mt-3">
                     <div className="d-flex">
-                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYoXlQ-_Zg1JoNH2Sc2PBcW8CV-rYMK_Z-zXBGpxreRHiXBCCk0x3oxT379__q1iKMgQPLGdtyaTemQZgXuxtSuzZWyYAy8_ons-8E9Fy37uxr0OjroolGlLQuKrNo4zrcZeUXNEBYbi0Amr_6fwXcxPHuvqWR2k7YzorO4-MgevklTnBZOKCxvUUwlapJpCrFD5hYZzLxTLzxyv0NGaRmTwI4YK8mQ1k83yvZ1iMW25qM-DLgbpW8QS2abMwrBXFsXo_udNhYKr4" alt="Reviewer 1" className="rounded-circle border border-white me-1" width="32" height="32"/>
-                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAWpJglhP5pHhDKWIxZyUUE65jm-SxlmgHMqquioXwcfGgDgXqbrPlFCGF-I56cEF1whSS7gDDPwO7b7lwkoNvIxkLI61NBLSeHUTTGOmQfMP9bw7VUsBDZ-Ch9bO88142Tb4-dzXrlJ9tUws7VerhzGMF_mydDqTb7rCFT87zBhz18HuVmpBw9URUvotXNc1nhHtQ1OnB0vdr3soSfVxnKWqgil9j6KyuKskDmBhP4xQrBlg9Qc_InG5B-52OQtwc4hMDrIEX3Tk" alt="Reviewer 2" className="rounded-circle border border-white me-1" width="32" height="32"/>
+                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
+                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
                       <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkwmhb2dTXkgR2bRWT3k-i01ayPr242iix1gJiTMGR12asFlOiYm9HpKJpPN7vAJxGytM_aUZVQbzra2NfbD5vRhHE9EXTTBeGtmBDvzwvCwdkdGhUKEUb8bR3arnzImTcvMuNqHAKPQ8KkVpirnA7spPipSIJ4OtYV33BcqD8IiR6tGCRAUV_gHW5q__vqK-s4gS-5A3wDw21vsFfrqnitZKsSQOxbNSp2l1ea5QUwNosdL5Sw-nOonFdNt5U0McerOw754YeTww" alt="Reviewer 3" className="rounded-circle border border-white" width="32" height="32"/>
                     </div>
                   </div>
@@ -134,10 +170,6 @@ const Dashboard = () => {
                     <span className="material-icons text-danger me-2"></span>
                     Whatsapp
                   </div>
-                  <div className="col-6 d-flex align-items-center mb-2">
-                    <span className="material-icons text-dark me-2">camera</span>
-                    Unsplash
-                  </div>
                 </div>
               </div>
             </div>
@@ -148,32 +180,46 @@ const Dashboard = () => {
                 <h5 className="fw-bold text-dark">FOR YOU</h5>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4 mx-4">
                 {[
                   {
                     title: "QUIZ",
                     author: "By WellEd",
-                    img: ""}
+                    img: "quiz.jpg",
+                    route: "/quiz",
+                  },
+                  {
+                    title: "STUDY METHODS",
+                    author: "By WellEd",
+                    img: "stmth.jpg",
+                    route: "/study-methods",
+                  },
                 ].map((lesson, idx) => (
-                  <div key={idx} className="card mb-3 border-0 shadow-sm">
+                  <div
+                    key={idx}
+                    className="card mb-3 border-0 shadow-sm"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(lesson.route)}
+                  >
                     <div className="row g-0 align-items-center">
                       <div className="col-4">
-                        <img src={lesson.img} className="img-fluid rounded-start" alt={lesson.title}/>
+                        <img
+                          src={lesson.img}
+                          className="img-fluid rounded-start"
+                          alt={lesson.title}
+                        />
                       </div>
                       <div className="col-8">
                         <div className="card-body p-2">
                           <h6 className="fw-semibold mb-1">{lesson.title}</h6>
                           <p className="small text-muted mb-1">{lesson.author}</p>
-                          <div className="d-flex justify-content-between align-items-center small text-muted">
-                            <span>1h 15min</span>
-                            <span className="material-icons">favorite_border</span>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+
             </div>
           </main>
 
@@ -182,8 +228,9 @@ const Dashboard = () => {
             <p>© 2025 WellEd. All rights reserved.</p>
           </footer>
         </div>
-          <Chatbot />
-      </div>
+
+        <Welly />
+      </div> 
     );
   };
 
@@ -191,3 +238,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
