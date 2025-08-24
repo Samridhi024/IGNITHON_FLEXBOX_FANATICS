@@ -54,7 +54,7 @@ export default function StudyMeth({ onBack }) {
                 src={img}
                 alt={`Study ${idx + 1}`}
                 className="card-img-top img-fluid rounded"
-                style={{ height: "500px" }}
+                style={{ height: "400px" }}
               />
             </div>
           </div>
@@ -90,3 +90,4 @@ export default function StudyMeth({ onBack }) {
     </div>
   );
 }
+
