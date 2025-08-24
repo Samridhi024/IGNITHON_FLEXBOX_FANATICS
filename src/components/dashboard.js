@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./dashboard.css";
+import { auth, signInWithGoogle, logOut, loginWithEmail, registerWithEmail } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import Quiz from "./quiz";
 
 const Dashboard = () => {
   const texts = [
@@ -9,15 +13,28 @@ const Dashboard = () => {
     "Grow Your Future"
   ];
 
+  const navigate = useNavigate();
+
   const [displayedText, setDisplayedText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // ✅ Firebase user state
+  const [user, setUser] = useState(null);
+
+  // Track login state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Typing effect
   useEffect(() => {
     const currentText = texts[textIndex];
-
-    let typingSpeed = isDeleting ? 50 : 100; // faster when deleting
+    let typingSpeed = isDeleting ? 50 : 100;
 
     if (!isDeleting && charIndex < currentText.length) {
       const timeout = setTimeout(() => {
@@ -39,7 +56,7 @@ const Dashboard = () => {
           setIsDeleting(false);
           setTextIndex((prev) => (prev + 1) % texts.length);
         }
-      }, 1000); // pause before switching
+      }, 1000);
       return () => clearTimeout(timeout);
     }
   }, [charIndex, isDeleting, textIndex, texts]);
@@ -69,9 +86,30 @@ const Dashboard = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* ✅ Auth Buttons */}
                   <div className="d-flex ms-3">
-                    <button className="btn btn-dark me-2">Login</button>
-                    <button className="btn btn-outline-dark">Register</button>
+                    {user ? (
+                      <>
+                        <span className="me-2 fw-bold text-dark">{user.email}</span>
+                        <button className="btn btn-danger" onClick={logOut}>Logout</button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-dark me-2"
+                          onClick={() => loginWithEmail("test@test.com", "password123")}
+                        >
+                          Login
+                        </button>
+                        <button
+                          className="btn btn-outline-dark me-2"
+                          onClick={() => registerWithEmail("test@test.com", "password123")}
+                        >
+                          Register
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -100,7 +138,7 @@ const Dashboard = () => {
                 </div>
                 <div className="col-md-6 position-relative">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-y3Iu0oWN2IdRK7Z27vVEpWl6hJ6V-TeAqg6RAjPR3E8Xi0H3QMrpeaJKo0Kw1FnKoF8ixvCHBFOaRM-wPdbeF3ics9v3wpY_DzPxfXgMW7_D8sfFLkjU4tIJEYh_PYqS0p50ZBlskhHz3Tga1nOs_hCyndImBdB3-RH6r9QBGw46uzAmCWNg85NvtePUqG3yVpqA5if3qvUP38J2rrHUtTHRuRHsCs-lPMfcD5U_cqbqK1UGkr8ZfDYVbI8w3HQBTBSdifZwa0w"
+                    src="wellbeing.png"
                     alt="Illustration"
                     className="img-fluid rounded"
                   />
@@ -134,10 +172,6 @@ const Dashboard = () => {
                     <span className="material-icons text-danger me-2"></span>
                     Whatsapp
                   </div>
-                  <div className="col-6 d-flex align-items-center mb-2">
-                    <span className="material-icons text-dark me-2">camera</span>
-                    Unsplash
-                  </div>
                 </div>
               </div>
             </div>
@@ -153,19 +187,28 @@ const Dashboard = () => {
                   {
                     title: "QUIZ",
                     author: "By WellEd",
-                    img: ""}
+                    img: "https://via.placeholder.com/150",
+                  },
                 ].map((lesson, idx) => (
-                  <div key={idx} className="card mb-3 border-0 shadow-sm">
+                  <div
+                    key={idx}
+                    className="card mb-3 border-0 shadow-sm"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate("/quiz")} // ✅ go to Quiz
+                  >
                     <div className="row g-0 align-items-center">
                       <div className="col-4">
-                        <img src={lesson.img} className="img-fluid rounded-start" alt={lesson.title}/>
+                        <img
+                          src={lesson.img}
+                          className="img-fluid rounded-start"
+                          alt={lesson.title}
+                        />
                       </div>
                       <div className="col-8">
                         <div className="card-body p-2">
                           <h6 className="fw-semibold mb-1">{lesson.title}</h6>
                           <p className="small text-muted mb-1">{lesson.author}</p>
                           <div className="d-flex justify-content-between align-items-center small text-muted">
-                            <span>1h 15min</span>
                             <span className="material-icons">favorite_border</span>
                           </div>
                         </div>
@@ -190,3 +233,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
