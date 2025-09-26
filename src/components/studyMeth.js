@@ -1,86 +1,126 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const studyMethods = [
   {
     title: "Pomodoro Technique",
-    description:
-      "The Pomodoro Technique is a time-management strategy designed to improve focus and productivity. You break your work into short, timed intervals called 'Pomodoro' (typically 25 minutes), followed by a 5-minute break. After completing four Pomodoros, you take a longer break (15–30 minutes). The core idea is that short bursts of focused work maximize concentration while frequent breaks prevent mental fatigue. It’s great for tackling large tasks, overcoming procrastination, and keeping motivation consistent. Tools like timers or apps can help track Pomodoros and breaks effectively.",
+    tagline: "Work in focused bursts.",
+    icon: "timer",
+    image: "/img1.png",
+    description: "Break your work into short, timed intervals (typically 25 minutes), followed by a 5-minute break. After four intervals, take a longer 15-30 minute break. This technique boosts focus and prevents burnout by making large tasks feel more manageable.",
   },
   {
     title: "Feynman Technique",
-    description:
-      "Named after physicist Richard Feynman, this method is all about learning by teaching. The process has four steps: Pick a concept you want to understand. Explain it in simple language as if teaching a child. Identify gaps in your explanation where you struggle to simplify. Review and refine your understanding, then repeat the process. The Feynman Technique works because translating knowledge into your own words forces deep comprehension rather than passive memorization. It’s particularly effective for complex subjects like physics, math, or coding concepts.",
-  },
-  {
-    title: "Mind Mapping",
-    description:
-      "Mind mapping is a visual brainstorming tool that organizes information hierarchically around a central concept. You start with a central idea, then create branches for related subtopics, and further sub-branches for details. Using keywords, colors, or small illustrations enhances memory and creativity. Mind maps help in planning projects, studying for exams, or connecting scattered ideas because they mimic the brain’s natural associative thinking. They are excellent for visual learners who grasp patterns better than linear notes.",
-  },
-  {
-    title: "SQ3R Method",
-    description:
-      "Survey, Question, Read, Recite, Review. A structured reading strategy to improve comprehension.",
+    tagline: "Learn by teaching.",
+    icon: "school",
+    image: "/img2.png",
+    description: "Named after physicist Richard Feynman, this method involves four steps: 1. Pick a concept. 2. Explain it in simple terms as if to a child. 3. Identify gaps in your understanding where you struggle. 4. Review and simplify again. It forces deep comprehension over rote memorization.",
   },
   {
     title: "Active Recall",
-    description:
-      "Close your notes and test yourself frequently. Forcing recall strengthens memory better than passive reading.",
+    tagline: "Test yourself, don't just review.",
+    icon: "psychology",
+    image: "/img3.png",
+    description: "Instead of passively rereading notes, actively retrieve information from your memory. Use flashcards, do practice questions, or simply cover your notes and try to recite the key concepts. This is one of the most effective ways to build strong, lasting memories.",
+  },
+  {
+    title: "Mind Mapping",
+    tagline: "Visualize and connect ideas.",
+    icon: "hub",
+    image: "/img4.png",
+    description: "Start with a central idea and branch out with related subtopics and details. Using colors, keywords, and images helps organize information in a way that mimics your brain's natural associative thinking. It's excellent for brainstorming, planning, and seeing the big picture.",
+  },
+  {
+    title: "SQ3R Method",
+    tagline: "Read with a purpose.",
+    icon: "menu_book",
+    image: "/img5.png",
+    description: "A reading comprehension technique that stands for Survey, Question, Read, Recite, Review. It turns passive reading into an active process, helping you engage with the material and retain information much more effectively.",
   },
   {
     title: "Blurting Method",
-    description:
-      "After studying, write down everything you remember without looking at notes, then fill in the gaps.",
+    tagline: "Pour out what you know.",
+    icon: "edit_note",
+    image: "/img6.png",
+    description: "After studying a topic, take a blank sheet of paper and write down everything you remember. This 'blurt' reveals what you've truly retained. Then, compare it to your notes to instantly see the gaps you need to fill. It's a powerful form of active recall.",
   },
 ];
 
-export default function StudyMeth({ onBack }) {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const images = ["/img1.jpg", "/img2.jpg", "/img3.jpg", "/img4.jpg"];
+export default function StudyMeth() {
+  const navigate = useNavigate();
+  const [selectedMethod, setSelectedMethod] = useState(studyMethods[0]);
+  
+  const subtleYellow = '#FFF8E1';
+  const primaryGold = '#FFD54F';
 
   return (
     <div className="container py-5">
-      <h2 className="mb-4">Study Methods</h2>
+      <div className="text-center mb-5">
+        <h2 className="display-5 fw-bold">Unlock Your Learning Potential</h2>
+        <p className="lead text-muted">Discover proven methods to study smarter, not just harder.</p>
+      </div>
 
-      {/* --- Image Grid --- */}
-      {/* --- Image Grid --- */}
-      <div className="row mb-4 text-center">
-        {images.map((img, idx) => (
-          <div key={idx} className="col-6 col-md-3 mb-3">
-            <div className="card h-100 shadow-sm">
-              <img
-                src={img}
-                alt={`Study ${idx + 1}`}
-                className="card-img-top img-fluid rounded"
-              />
+      <div className="row g-4">
+        <div className="col-lg-8">
+          <div className="card shadow-sm h-100 border-light">
+            <img 
+              src={selectedMethod.image} 
+              className="card-img-top" 
+              alt={selectedMethod.title} 
+              style={{ height: '300px', objectFit: 'cover' }} 
+            />
+            <div className="card-body p-4">
+              <div className="d-flex align-items-center mb-3">
+                <span className="material-icons me-3" style={{ fontSize: '2.5rem', color: primaryGold }}>
+                  {selectedMethod.icon}
+                </span>
+                <div>
+                  <h4 className="card-title fw-bold mb-0">{selectedMethod.title}</h4>
+                  <p className="card-text text-muted fst-italic">{selectedMethod.tagline}</p>
+                </div>
+              </div>
+              <p className="card-text fs-5" style={{ color: '#555' }}>{selectedMethod.description}</p>
             </div>
           </div>
-        ))}
+        </div>
+        <div className="col-lg-4">
+          <div className="card shadow-sm h-100 border-light">
+            <div className="card-header bg-white fw-bold border-bottom-0">
+              Choose a Method
+            </div>
+            <div className="list-group list-group-flush">
+              {studyMethods.map((method) => {
+                const isSelected = selectedMethod.title === method.title;
+                return (
+                  <button
+                    key={method.title}
+                    type="button"
+                    className={`list-group-item list-group-item-action p-3 border-0`}
+                    style={{ 
+                      backgroundColor: isSelected ? subtleYellow : 'white',
+                      borderLeft: isSelected ? `4px solid ${primaryGold}` : '4px solid transparent',
+                      transition: 'background-color 0.2s ease-in-out'
+                    }}
+                    onClick={() => setSelectedMethod(method)}
+                  >
+                    <div className="d-flex w-100 justify-content-between">
+                      <h6 className={`mb-1 ${isSelected ? 'fw-bold' : 'fw-normal'}`}>{method.title}</h6>
+                    </div>
+                    <small className="text-muted">{method.tagline}</small>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* --- Tabs --- */}
-      <ul className="nav nav-tabs mb-3">
-        {studyMethods.map((method, idx) => (
-          <li className="nav-item" key={idx}>
-            <button
-              className={`nav-link ${activeTab === idx ? "active" : ""}`}
-              onClick={() => setActiveTab(idx)}
-            >
-              {method.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      {/* --- Tab Content --- */}
-      <div className="card shadow-sm p-3">
-        <h5>{studyMethods[activeTab].title}</h5>
-        <p>{studyMethods[activeTab].description}</p>
+      <div className="text-center mt-5">
+        <button className="btn btn-dark" onClick={() => navigate("/")}>
+          <span className="material-icons align-middle me-1">arrow_back</span>
+          Return to Dashboard
+        </button>
       </div>
-
-      <button className="btn btn-secondary mt-3" onClick={onBack}>
-        Back to Dashboard
-      </button>
     </div>
   );
 }
