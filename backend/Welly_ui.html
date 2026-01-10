@@ -1,0 +1,366 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welly</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .chatbot-container {
+      width: 320px;
+      height: 400px;
+      position: relative;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin: 50px auto;
+    }
+
+    .chat-header {
+      background-color: #265ef2;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .chat-body {
+      padding: 15px;
+      height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .bot-message {
+      background-color: #bafdf6;
+      padding: 10px;
+      border-radius: 8px;
+      align-self: flex-start;
+    }
+
+    .user-message {
+      background-color: #d0e6ff;
+      padding: 10px;
+      border-radius: 8px;
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #bafdf6;
+      padding: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 20px;
+      outline: none;
+      background-color: #bafdf6;
+    }
+
+    .bot-icon {
+      margin-left: 10px;
+      font-size: 22px;
+      align-self: center;
+    }
+    .bot-icon img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%; /* makes it perfectly round */
+  object-fit: cover; /* keeps it clean */
+}
+
+  </style>
+</head>
+<body>
+  <div class="chatbot-container">
+    <div class="chat-header">
+      Welly
+      <button class="close-btn" onclick="closeChat()">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="message bot-message">
+        Hello! I'm Welly. <br />
+        Need tips for stress relief, studying smarter, or staying motivated? I’m here to help.
+      </div>
+    </div>
+    <div class="chat-input">
+  <input type="text" id="userInput" placeholder="Ask about your study or mental health..." onkeydown="handleKey(event)" />
+  <div class="bot-icon">
+    <img src="./wellie-fotor-bg-remover-2025082413644.png" alt="Chatbot Logo" />
+  </div>
+</div>
+
+  <script>
+    function handleKey(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('userInput');
+        const msg = input.value.trim();
+        if (msg) {
+          addMessage(msg, 'user');
+          respondToMessage(msg);
+          input.value = '';
+        }
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chatBody = document.getElementById('chatBody');
+      const div = document.createElement('div');
+      div.className = `message ${sender}-message`;
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+     async function respondToMessage(msg) {
+    try {
+      const response = await fetch("http://localhost:8000/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: msg })
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      addMessage(data.response, 'bot');
+    } catch (error) {
+      console.error("Error:", error);
+      addMessage("Sorry, I couldn't fetch the weather right now.", 'bot');
+    }
+  }
+
+    function closeChat() {
+      document.querySelector('.chatbot-container').style.display = 'none';
+    }
+  </script>
+</body>
+</html> -->
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welly</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .chatbot-container {
+      width: 320px;
+      height: 400px;
+      position: relative;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin: 50px auto;
+    }
+
+    .chat-header {
+      background-color: #265ef2;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .chat-body {
+      padding: 15px;
+      height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .bot-message {
+      background-color: #bafdf6;
+      padding: 10px;
+      border-radius: 8px;
+      align-self: flex-start;
+      max-width: 80%; /* Limit bot message width */
+    }
+
+    .user-message {
+      background-color: #d0e6ff;
+      padding: 10px;
+      border-radius: 8px;
+      align-self: flex-end;
+      max-width: 80%; /* Limit user message width */
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #bafdf6;
+      padding: 10px;
+      background-color: white; /* Ensure input area looks clean */
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 20px;
+      outline: none;
+      background-color: #bafdf6;
+      padding-left: 15px;
+    }
+
+    .bot-icon {
+      margin-left: 10px;
+      font-size: 22px;
+      align-self: center;
+      min-width: 35px; /* Prevent shrinking */
+    }
+    .bot-icon img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="chatbot-container">
+    <div class="chat-header">
+      Welly
+      <button class="close-btn" onclick="closeChat()">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="message bot-message">
+        Hello! I'm Welly. <br />
+        Need tips for stress relief, studying smarter, or staying motivated? I’m here to help.
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Ask about your study or mental health..." onkeydown="handleKey(event)" />
+      <!-- Note: The image path `./wellie-fotor-bg-remover-2025082413644.png` is relative and must exist when deployed. -->
+      <div class="bot-icon">
+        <img src="/static/wellie-fotor-bg-remover-2025082413644.png" alt="Chatbot Logo" />
+      </div>
+    </div>
+
+  <script>
+    /**
+     * IMPORTANT DEPLOYMENT STEP:
+     * Replace the placeholder URL below with the public URL of your deployed FastAPI backend.
+     * Example: "https://your-app-name.onrender.com/ask"
+     * * If you are running locally, use "http://localhost:8000/ask"
+     */
+    const API_URL = "http://127.0.0.1:8000/ask"; 
+
+    function handleKey(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('userInput');
+        const msg = input.value.trim();
+        if (msg) {
+          addMessage(msg, 'user');
+          respondToMessage(msg);
+          input.value = '';
+        }
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chatBody = document.getElementById('chatBody');
+      const div = document.createElement('div');
+      div.className = `message ${sender}-message`;
+      div.textContent = text;
+      chatBody.appendChild(div);
+      // Always scroll to the bottom to show the newest message
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+     async function respondToMessage(msg) {
+      addMessage("Welly is typing...", 'bot'); // Temporary loading message
+
+      try {
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message: msg })
+        });
+
+        // Remove the loading message before adding the real response
+        const chatBody = document.getElementById('chatBody');
+        chatBody.removeChild(chatBody.lastChild);
+
+        if (!response.ok) {
+          throw new Error(`API returned status ${response.status}`);
+        }
+
+        const data = await response.json();
+        addMessage(data.response, 'bot');
+      } catch (error) {
+        console.error("Error fetching response:", error);
+        
+        // Remove loading message if it exists
+        const chatBody = document.getElementById('chatBody');
+        if (chatBody.lastChild && chatBody.lastChild.textContent === "Welly is typing...") {
+           chatBody.removeChild(chatBody.lastChild);
+        }
+
+        addMessage("Sorry, I'm having trouble connecting to my brain right now. Please try again.", 'bot');
+      }
+    }
+
+    function closeChat() {
+      // In a real integration, you might hide the container or swap it with a floating button
+      document.querySelector('.chatbot-container').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
