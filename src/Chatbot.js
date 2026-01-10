@@ -4,7 +4,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const API_URL = "https://your-render-chatbot-url.onrender.com/message"; // replace with your deployed URL
+  const API_URL = "https://chatbot-yr7k.onrender.com/"; // replace with your deployed URL
 
   const sendMessage = async () => {
     if (!input.trim()) return;
