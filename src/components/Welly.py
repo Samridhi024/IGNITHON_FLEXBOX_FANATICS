@@ -8,8 +8,7 @@ import google.generativeai as genai
 import re
 
 # === CONFIG ===
-os.environ["GEMINI_API_KEY"] = "AIzaSyDIPTI57LA4vRusE5RmrGc7ryP_-1zFI9U"  # Replace with your Gemini key
-OPENWEATHER_API_KEY = "02ea3b1ca1f643f03f1211768875f716"  # Replace with your OpenWeatherMap key
+os.environ["GEMINI_API_KEY"] = "AIzaSyDIPTI57LA4vRusE5RmrGc7ryP_-1zFI9U"  
 
 # Setup Gemini API client
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
@@ -101,3 +100,4 @@ async def ask_student_support(query: Query):
     except Exception as e:
         print(f"Error in /ask endpoint: {e}")
         return {"error": "Internal server error"}, 500
+
