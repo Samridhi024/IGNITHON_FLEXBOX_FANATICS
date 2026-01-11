@@ -68,7 +68,7 @@ export default function Chatbot() {
   const messagesEndRef = useRef(null);
 
   // YOUR BACKEND URL (Ensure /chat is there if your python code has @app.route('/chat'))
-  const API_URL = "https://ignithon-flexbox-fanatics.onrender.com"; 
+  const API_URL = "https://ignithon-flexbox-fanatics.onrender.com/ask"; 
 
   // Auto-scroll to bottom
   useEffect(() => {
