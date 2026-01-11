@@ -168,7 +168,7 @@ async def ask_student_support(query: Query):
             contents=prompt
         )
 
-        return {"response": response.text}
+        return {"reply": response.text}
 
     except Exception as e:
         print("Gemini error:", repr(e))
