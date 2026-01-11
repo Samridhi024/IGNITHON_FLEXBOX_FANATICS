@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, logOut, loginWithEmail, registerWithEmail } from "./firebase";
 // import Welly from "./welly_react"; // Assuming welly_react.js is in this folder
-import Chatbot from "./components/chatbot";
+import Chatbot from "./Chatbot";
 
 const Dashboard = () => {
   const texts = ["Tomorrow is for the Taking", "Learn with WellEd", "Grow Your Future"];
