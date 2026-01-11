@@ -118,14 +118,12 @@ async def ask_student_support(query: Query):
     )
 
     try:
-        response = client.chat.create(
-            model="gemini-2.0-flash-001",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": query.message},
-            ],
+        response = client.models.generate_content(
+        model="gemini-2.0-flash-001",
+        contents=f"{system_prompt}\nUser: {query.message}"
         )
-        return {"response": response.last}
+        return {"response": response.text}
+
     except Exception as e:
         print("Gemini error:", e)
         return {"error": "Internal server error"}, 500
