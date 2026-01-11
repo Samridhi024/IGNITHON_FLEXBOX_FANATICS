@@ -162,7 +162,7 @@ if not api_key:
 client = genai.Client(api_key=api_key)
 # -----------------------
 
-MODEL = "gemini-2.0-flash-001"
+MODEL = "gemini-1.5-flash"
 
 @app.post("/ask")
 async def ask_student_support(query: Query):
