@@ -150,7 +150,18 @@ app.add_middleware(
 class Query(BaseModel):
     message: str
 
-client = genai.Client()
+# --- THE FIX IS HERE ---
+# 1. We get the specific variable you set in Render
+api_key = os.environ.get("GEMINI_API_KEY")
+
+# 2. We pass it directly to the Client
+# (If running locally without env var, this might be None, so we add a fallback check)
+if not api_key:
+    print("WARNING: GEMINI_API_KEY not found in environment variables!")
+
+client = genai.Client(api_key=api_key)
+# -----------------------
+
 MODEL = "gemini-2.0-flash-001"
 
 @app.post("/ask")
@@ -173,4 +184,3 @@ async def ask_student_support(query: Query):
     except Exception as e:
         print("Gemini error:", repr(e))
         return {"error": "Internal server error"}, 500
-
