@@ -68,40 +68,65 @@ async def serve_frontend():
 
 
 # Chatbot POST endpoint
+# @app.post("/ask")
+# async def ask_student_support(query: Query):
+#     # FIX 2: Check if the API key is missing OR if the client failed to initialize
+#     if not GEMINI_API_KEY or not client:
+#         return {"error": "Chatbot service is unavailable. API Client initialization failed."}, 503
+        
+#     try:
+#         user_input = query.message
+
+#         # System prompt to enforce focus on education + mental health encouragement
+#         system_prompt = (
+#             "You are a student support assistant focused on mental health and academic encouragement. "
+#             "You must respond ONLY with advice, motivation, or tips related to studying, productivity, stress management, "
+#             "wellbeing, and mental health. "
+#             "Do NOT provide irrelevant answers, jokes, or unrelated information. "
+#             "Use a positive, encouraging, and empathetic tone. "
+#             "Explain in 2–3 sentences. "
+#             "Keep it short and concise. "
+#             "Summarize only the key points."
+#         )
+
+#         # Create a fresh chat instance per request to maintain a stateless API
+#         # FIX 3: Use client.chats.create() to start the chat session.
+#         chat = client.chats.create(
+#             model=MODEL_NAME, 
+#             history=[]
+#         )
+
+#         # Construct the final prompt for the model
+#         final_prompt = system_prompt + "\nUser: " + user_input
+#         response = chat.send_message(final_prompt)
+
+#         return {"response": response.text}
+
+#     except Exception as e:
+#         print(f"Error in /ask endpoint: {e}")
+#         return {"error": "Internal server error during LLM processing."}, 500
+
 @app.post("/ask")
 async def ask_student_support(query: Query):
-    # FIX 2: Check if the API key is missing OR if the client failed to initialize
-    if not GEMINI_API_KEY or not client:
-        return {"error": "Chatbot service is unavailable. API Client initialization failed."}, 503
-        
+    if not client:
+        return {"error": "Chatbot service unavailable"}, 503
+
+    system_prompt = (
+        "You are a student support assistant focused on mental health and academic encouragement. "
+        "Respond ONLY with advice, motivation, or tips related to studying, productivity, stress management, "
+        "wellbeing, and mental health. Keep it short (2–3 sentences)."
+    )
+
     try:
-        user_input = query.message
-
-        # System prompt to enforce focus on education + mental health encouragement
-        system_prompt = (
-            "You are a student support assistant focused on mental health and academic encouragement. "
-            "You must respond ONLY with advice, motivation, or tips related to studying, productivity, stress management, "
-            "wellbeing, and mental health. "
-            "Do NOT provide irrelevant answers, jokes, or unrelated information. "
-            "Use a positive, encouraging, and empathetic tone. "
-            "Explain in 2–3 sentences. "
-            "Keep it short and concise. "
-            "Summarize only the key points."
+        response = client.chat.create(
+            model="gemini-2.0-flash-001",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": query.message},
+            ],
         )
-
-        # Create a fresh chat instance per request to maintain a stateless API
-        # FIX 3: Use client.chats.create() to start the chat session.
-        chat = client.chats.create(
-            model=MODEL_NAME, 
-            history=[]
-        )
-
-        # Construct the final prompt for the model
-        final_prompt = system_prompt + "\nUser: " + user_input
-        response = chat.send_message(final_prompt)
-
-        return {"response": response.text}
-
+        return {"response": response.last}
     except Exception as e:
-        print(f"Error in /ask endpoint: {e}")
-        return {"error": "Internal server error during LLM processing."}, 500
+        print("Gemini error:", e)
+        return {"error": "Internal server error"}, 500
+
