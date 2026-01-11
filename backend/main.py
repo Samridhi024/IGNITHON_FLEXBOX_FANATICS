@@ -158,7 +158,7 @@ else:
     genai.configure(api_key=api_key)
 
 # We use the standard model name here
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-1.5-flash-001"
 model = genai.GenerativeModel(MODEL_NAME)
 # -------------------------------------------
 
