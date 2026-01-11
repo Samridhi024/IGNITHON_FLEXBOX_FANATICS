@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # New imports for serving static files and HTML
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from typing import Optional
@@ -45,7 +45,7 @@ app = FastAPI()
 
 # Mount the static files (e.g., the logo image)
 # The static folder is mapped to the '/static' URL path
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Enable CORS for deployment (allows any origin to access the API)
 app.add_middleware(
