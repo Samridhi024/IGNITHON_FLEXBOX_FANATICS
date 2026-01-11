@@ -150,23 +150,22 @@ app.add_middleware(
 class Query(BaseModel):
     message: str
 
-# --- THE FIX IS HERE ---
-# 1. We get the specific variable you set in Render
+# --- CONFIGURATION FOR THE STABLE LIBRARY ---
 api_key = os.environ.get("GEMINI_API_KEY")
-
-# 2. We pass it directly to the Client
-# (If running locally without env var, this might be None, so we add a fallback check)
 if not api_key:
-    print("WARNING: GEMINI_API_KEY not found in environment variables!")
+    print("CRITICAL ERROR: GEMINI_API_KEY is missing!")
+else:
+    genai.configure(api_key=api_key)
 
-client = genai.Client(api_key=api_key)
-# -----------------------
-
-MODEL = "gemini-1.5-flash-001"
+# We use the standard model name here
+MODEL_NAME = "gemini-1.5-flash"
+model = genai.GenerativeModel(MODEL_NAME)
+# -------------------------------------------
 
 @app.post("/ask")
 async def ask_student_support(query: Query):
     try:
+        # Prompt engineering
         prompt = (
             "You are a student support assistant focused on mental health and academic encouragement. "
             "Respond ONLY with advice, motivation, or tips related to studying, productivity, stress management, "
@@ -174,10 +173,8 @@ async def ask_student_support(query: Query):
             f"User: {query.message}"
         )
 
-        response = client.models.generate_content(
-            model=MODEL,
-            contents=prompt
-        )
+        # The stable library uses 'generate_content_async', NOT 'client.models.generate_content'
+        response = await model.generate_content_async(prompt)
 
         return {"reply": response.text}
 
