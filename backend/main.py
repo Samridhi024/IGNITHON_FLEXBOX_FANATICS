@@ -158,7 +158,7 @@ if api_key:
     genai.configure(api_key=api_key)
 
 # We try 'gemini-1.5-flash' first. If that fails, the error will tell us.
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "models/gemma-3-4b-it"
 model = genai.GenerativeModel(MODEL_NAME)
 # ---------------------
 
