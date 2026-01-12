@@ -150,34 +150,35 @@ app.add_middleware(
 class Query(BaseModel):
     message: str
 
-# --- CONFIGURATION FOR THE STABLE LIBRARY ---
+# --- CONFIGURATION ---
 api_key = os.environ.get("GEMINI_API_KEY")
-if not api_key:
-    print("CRITICAL ERROR: GEMINI_API_KEY is missing!")
-else:
+
+# Configure the API if the key exists
+if api_key:
     genai.configure(api_key=api_key)
 
-# We use the standard model name here
-MODEL_NAME = "gemini-pro"
+# We try 'gemini-1.5-flash' first. If that fails, the error will tell us.
+MODEL_NAME = "gemini-1.5-flash"
 model = genai.GenerativeModel(MODEL_NAME)
-# -------------------------------------------
+# ---------------------
 
 @app.post("/ask")
 async def ask_student_support(query: Query):
+    # 1. Check if API Key is missing
+    if not api_key:
+        return {"reply": "Configuration Error: GEMINI_API_KEY is missing from Render Environment Variables."}
+
     try:
-        # Prompt engineering
         prompt = (
-            "You are a student support assistant focused on mental health and academic encouragement. "
-            "Respond ONLY with advice, motivation, or tips related to studying, productivity, stress management, "
-            "wellbeing, and mental health. Keep it short (2–3 sentences).\n\n"
+            "You are a student support assistant. Keep it short (2 sentences).\n\n"
             f"User: {query.message}"
         )
 
-        # The stable library uses 'generate_content_async', NOT 'client.models.generate_content'
         response = await model.generate_content_async(prompt)
-
         return {"reply": response.text}
 
     except Exception as e:
-        print("Gemini error:", repr(e))
-        return {"error": "Internal server error"}, 500
+        # RETURN THE ACTUAL ERROR TO THE CHATBOT
+        error_msg = str(e)
+        print(f"CRASH: {error_msg}")
+        return {"reply": f"System Error: {error_msg}"}
