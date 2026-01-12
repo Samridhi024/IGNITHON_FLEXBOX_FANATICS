@@ -2,5 +2,5 @@ fastapi
 uvicorn
 pydantic
 requests
-google-genai
+google-generativeai
 python-dotenv

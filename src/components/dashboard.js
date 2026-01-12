@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, logOut, loginWithEmail, registerWithEmail } from "./firebase";
 // import Welly from "./welly_react"; // Assuming welly_react.js is in this folder
-import Chatbot from "./components/chatbot";
+import Chatbot from "./Chatbot";
 
 const Dashboard = () => {
   const texts = ["Tomorrow is for the Taking", "Learn with WellEd", "Grow Your Future"];
@@ -168,7 +168,7 @@ function WellEd({ user, navigate, displayedText, logOut, loginWithEmail, registe
         <style>{`.lesson-card{transition:transform .2s ease-in-out,box-shadow .2s ease-in-out}.lesson-card:hover{transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,.1) !important}.nav-item:hover .hover-box{opacity:1 !important;transform:translateX(-50%) translateY(2px) !important}`}</style>
         <footer className="mt-5 text-center text-muted small"><p>© 2025 WellEd. All rights reserved.</p></footer>
       </div>
-      // <Welly />
+     
         <Chatbot />
     </div>
   );
